@@ -1,0 +1,27 @@
+{
+  "name": "wordgamenode",
+  "version": "1.0.0",
+  "description": "node.js version of simple word game",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnlobster/wordGameNode.git"
+  },
+  "author": "John Webster",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnlobster/wordGameNode/issues"
+  },
+  "homepage": "https://github.com/johnlobster/wordGameNode#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^5.0.1",
+    "typescript": "^3.4.5"
+  }
+}

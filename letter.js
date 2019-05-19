@@ -1,0 +1,25 @@
+// constructor to be used in word game
+function Letter() {
+    this.char = "";
+    this.guessed = false;
+    this.isGuessed = function () {
+        if (this.isGuessed) {
+            return this.char;
+        }
+        else {
+            return ("_");
+        }
+    };
+    this.check = function (x) {
+        if (this.char === x) {
+            this.guessed = true;
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+}
+module.exports = Letter;
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxldHRlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxzQ0FBc0M7QUFDdEMsU0FBUyxNQUFNO0lBQ1gsSUFBSSxDQUFDLElBQUksR0FBRyxFQUFFLENBQUM7SUFDZixJQUFJLENBQUMsT0FBTyxHQUFHLEtBQUssQ0FBQztJQUNyQixJQUFJLENBQUMsU0FBUyxHQUFHO1FBQ2IsSUFBSyxJQUFJLENBQUMsU0FBUyxFQUFFO1lBQ2pCLE9BQU8sSUFBSSxDQUFDLElBQUksQ0FBQztTQUNwQjthQUNJO1lBQ0QsT0FBTSxDQUFDLEdBQUcsQ0FBQyxDQUFDO1NBQ2Y7SUFDTCxDQUFDLENBQUE7SUFDRCxJQUFJLENBQUMsS0FBSyxHQUFHLFVBQVUsQ0FBUTtRQUMzQixJQUFJLElBQUksQ0FBQyxJQUFJLEtBQUssQ0FBQyxFQUFFO1lBQ2pCLElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO1lBQ3BCLE9BQU8sSUFBSSxDQUFDO1NBQ2Y7YUFDSTtZQUNELE9BQU8sS0FBSyxDQUFDO1NBQ2hCO0lBQ0wsQ0FBQyxDQUFBO0FBQ0wsQ0FBQztBQUVELE1BQU0sQ0FBQyxPQUFPLEdBQUcsTUFBTSxDQUFDIiwiZmlsZSI6ImxldHRlci5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIGNvbnN0cnVjdG9yIHRvIGJlIHVzZWQgaW4gd29yZCBnYW1lXHJcbmZ1bmN0aW9uIExldHRlcigpIHtcclxuICAgIHRoaXMuY2hhciA9IFwiXCI7XHJcbiAgICB0aGlzLmd1ZXNzZWQgPSBmYWxzZTtcclxuICAgIHRoaXMuaXNHdWVzc2VkID0gZnVuY3Rpb24gKCk6c3RyaW5nIHtcclxuICAgICAgICBpZiAoIHRoaXMuaXNHdWVzc2VkKSB7XHJcbiAgICAgICAgICAgIHJldHVybiB0aGlzLmNoYXI7XHJcbiAgICAgICAgfVxyXG4gICAgICAgIGVsc2Uge1xyXG4gICAgICAgICAgICByZXR1cm4oXCJfXCIpO1xyXG4gICAgICAgIH1cclxuICAgIH0gIFxyXG4gICAgdGhpcy5jaGVjayA9IGZ1bmN0aW9uICh4OnN0cmluZyk6Ym9vbGVhbiB7XHJcbiAgICAgICAgaWYgKHRoaXMuY2hhciA9PT0geCkge1xyXG4gICAgICAgICAgICB0aGlzLmd1ZXNzZWQgPSB0cnVlO1xyXG4gICAgICAgICAgICByZXR1cm4gdHJ1ZTtcclxuICAgICAgICB9XHJcbiAgICAgICAgZWxzZSB7XHJcbiAgICAgICAgICAgIHJldHVybiBmYWxzZTtcclxuICAgICAgICB9XHJcbiAgICB9XHJcbn1cclxuXHJcbm1vZHVsZS5leHBvcnRzID0gTGV0dGVyOyJdfQ==

@@ -1,0 +1,11 @@
+// constructor for  word game
+// const Letter = require("./letter.ts");
+function genLetters() {
+}
+function Word() {
+    this.letterArr = genLetters();
+    this.word2string = function (inputWord) {
+    };
+}
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndvcmQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsNkJBQTZCO0FBQzdCLHlDQUF5QztBQUV6QyxTQUFTLFVBQVU7QUFFbkIsQ0FBQztBQUNELFNBQVMsSUFBSTtJQUNULElBQUksQ0FBQyxTQUFTLEdBQUcsVUFBVSxFQUFFLENBQUM7SUFDOUIsSUFBSSxDQUFDLFdBQVcsR0FBRyxVQUFVLFNBQWdCO0lBRTdDLENBQUMsQ0FBQTtBQUNMLENBQUMiLCJmaWxlIjoid29yZC5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIGNvbnN0cnVjdG9yIGZvciAgd29yZCBnYW1lXHJcbi8vIGNvbnN0IExldHRlciA9IHJlcXVpcmUoXCIuL2xldHRlci50c1wiKTtcclxuXHJcbmZ1bmN0aW9uIGdlbkxldHRlcnMgKCkge1xyXG5cclxufVxyXG5mdW5jdGlvbiBXb3JkKCkgIHtcclxuICAgIHRoaXMubGV0dGVyQXJyID0gZ2VuTGV0dGVycygpO1xyXG4gICAgdGhpcy53b3JkMnN0cmluZyA9IGZ1bmN0aW9uKCBpbnB1dFdvcmQ6c3RyaW5nKSB7XHJcbiAgICAgICAgXHJcbiAgICB9XHJcbn0iXX0=
