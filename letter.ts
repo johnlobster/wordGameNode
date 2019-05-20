@@ -1,16 +1,20 @@
-// constructor to be used in word game
-function Letter() {
-    this.char = "";
-    this.guessed = false;
-    this.isGuessed = function ():string {
-        if ( this.isGuessed) {
+// class to be used in word game
+
+export default class Letter {
+    char:string;
+    constructor(letter:string) {
+        this.char = letter;
+    }
+    guessed:boolean = false;
+    returnChar():string {
+        if ( this.guessed) {
             return this.char;
         }
         else {
             return("_");
         }
     }  
-    this.check = function (x:string):boolean {
+    check(x: string):boolean {
         if (this.char === x) {
             this.guessed = true;
             return true;
@@ -21,4 +25,6 @@ function Letter() {
     }
 }
 
-module.exports = Letter;
+// export { Letter};
+
+// module.exports = Letter;

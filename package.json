@@ -18,6 +18,7 @@
   "homepage": "https://github.com/johnlobster/wordGameNode#readme",
   "dependencies": {},
   "devDependencies": {
+    "esm": "^3.2.25",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "gulp-sourcemaps": "^2.6.5",
