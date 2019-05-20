@@ -23,5 +23,12 @@ export default class  Word  {
             this.letterArr[i].check(char);
         }
     }
+    word2FullString():string {
+        let result = "";
+        for (let i = 0; i < this.letterArr.length; i++) {
+            result += this.letterArr[i].char;
+        }
+        return result;
+    }
 }
 
