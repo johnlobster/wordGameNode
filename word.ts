@@ -2,32 +2,26 @@
 // 
 import Letter from "./letter";
 
-function genLetters (newWord:string):{}[] {
-    
-
-}
 
 export default class  Word  {
-    letterArr:{}[];
+    letterArr:Letter[];
     constructor(newWord: string) {
         this.letterArr = [];
         for (let i = 0; i < newWord.length; i++) {
-            var letter: any = new Letter(newWord.substr(i, 1));
-            this.letterArr.push(letter);
+            this.letterArr.push(new Letter(newWord.substr(i, 1)));
         }
     }
     word2string():string {
-        let result = false;
+        let result = "";
         for (let i = 0; i < this.letterArr.length; i++) {
-        this.letterArr[0].returnChar();
+            result += this.letterArr[i].returnChar();
+        }
+        return result;
     }
-    checkChar( char:string) {""
-        let result = false;
+    checkChar( char:string):void {
         for (let i = 0; i < this.letterArr.length; i++) {
-            if ( )
-
+            this.letterArr[i].check(char);
+        }
     }
 }
 
-
-// module.exports = Word;

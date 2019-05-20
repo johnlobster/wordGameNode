@@ -16,8 +16,13 @@
     "url": "https://github.com/johnlobster/wordGameNode/issues"
   },
   "homepage": "https://github.com/johnlobster/wordGameNode#readme",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "terminal-kit": "^1.28.0"
+  },
   "devDependencies": {
+    "@types/lodash": "^4.14.129",
+    "@types/terminal-kit": "^1.28.0",
     "esm": "^3.2.25",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
