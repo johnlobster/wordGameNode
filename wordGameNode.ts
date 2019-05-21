@@ -15,17 +15,21 @@ const wordsArr = [
     "css"
 ];
 
-// object to hold x,y locations of inputs and outputs for use by terminal-kit
-const termXY = {
-    chosenLetters: { x:25, y:10},
-    wordSoFar:     { x:25, y:12},
-    getWord:       { x:25, y:15},
-    input:         { x:25, y:13},
-    chooseAgain:   { x:25, y:18}
-};
-
 // offsets the instructions from left hand side
 const xOffset = 5;
+// object to hold x,y locations of inputs and outputs for use by terminal-kit
+const termXY = {
+    chosenLetters: { x:25, y:12},
+    wordSoFar:     { x:25, y:16},
+    getWord:       { x:25, y:20},
+    input:         { x:25, y:18},
+    chooseAgain:   { x:25, y:23},
+    guesses:       { x:25, y:11},
+    title:         { x:30, y:2},
+    instructions:  { x:5,  y:4}
+};
+
+
 // can't seem to turn off the event listener so using a global variable to make it doesn't return anything
 var readWord = false;
 // holds the word selected by random from wordsArr
@@ -33,6 +37,13 @@ var theWord:Word;
 
 // array to hold the letters chosen
 var lettersChosen:string[] = [];
+
+// number of guesses and max allowed
+var guesses:number = -1; // referenced through incGuesses function which always increments so start at -1
+const maxGuesses:number = 10;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// functions
 
 // randomly choose a word from wordsArr
 function chooseWord () {
@@ -45,6 +56,15 @@ function chooseWord () {
 function setupTerminal():void {
     term.clear();
     // write information to screen
+    // title
+    term.moveTo(termXY.title.x, termXY.title.y);
+    term.bold("Word game");
+    // instructions
+    term.moveTo(termXY.instructions.x, termXY.instructions.y);
+    term("Instructions:\n");
+    term("         Press keys to guess letters, you have " + maxGuesses + " attempts\n");
+    term("         press RETURN to guess at the word (takes up 1 attempt)\n");
+    term("         press control-C to end the game at any time");
     term.moveTo(xOffset,termXY.input.y);
     term("Type letters");
     term.moveTo(xOffset, termXY.chosenLetters.y);
@@ -82,32 +102,66 @@ function exitGame(message?: any): void {
     term.processExit(0);
 }
 
+function incGuess():void {
+    guesses += 1;
+    if (guesses > maxGuesses) {
+        // too many guesses
+        term.moveTo(termXY.chooseAgain.x, termXY.chooseAgain.y);
+        term("Too many guesses, you lose. ");
+        term(" Another game ? (Y/n)");
+        readWord = true; // not really reading word but disables key event
+        term.yesOrNo({ yes: ['y', 'Y', 'ENTER'], no: ['n', 'N'] }, function (error, result) {
+            if (result) {
+                readWord = false; // re-enabled key event
+                start();
+            }
+            else {
+                exitGame();
+            }
+        });
+    }
+    else {
+        term.moveTo(termXY.guesses.x, termXY.guesses.y);
+        term(guesses + "/" + maxGuesses + " guesses");
+        // move cursor back to input position
+        term.moveTo(termXY.input.x, termXY.input.y);
+        
+    }
+}
+
 function guessWord():void {
     term.moveTo(xOffset, termXY.getWord.y);
     term("Guess the word ");
     term.moveTo(xOffset, termXY.getWord.y + 1);
     term("(RETURN to finish)");
+    // move cursor to word input position
     term.moveTo(termXY.getWord.x, termXY.getWord.y);
+    // erase what was there
+    term("                                     ");
+    term.moveTo(termXY.getWord.x, termXY.getWord.y);
+    term("Here " + termXY.getWord.x + "," + termXY.getWord.y);
+    term.moveTo(termXY.getWord.x, termXY.getWord.y + 5);
     // turn off the key event listener using global variable
     readWord = true;
-    term.inputField(function (error: any, input: string) {
+    term.inputField({},function (error: any, input: string) {
         if (error) {
-            // term.red.bold("\nAn error occurred reading input field: " + error + "\n");
             exitGame(term.red.str("\nAn error occurred reading input field: " + error + "\n"));
         }
         else {
-            // console.log("\nInput was " + input);
             if( input === theWord.word2FullString()) {
+                // guessed right
                 readWord = false;
                 wordCompleted();
             }
             else {
+                // erase the instructions
                 term.moveTo(xOffset, termXY.getWord.y);
                 term("                                   ");
                 term.moveTo(xOffset, termXY.getWord.y + 1);
                 term("                    ");
+                // let user know what happened
                 term.moveTo(termXY.getWord.x, termXY.getWord.y);
-                term("Guess " + input + " was wrong                                  ");
+                term("Guess \"" + input + "\" was wrong                                  ");
                 // move cursor back to input position
                 term.moveTo(termXY.input.x, termXY.input.y);
             }
@@ -122,15 +176,16 @@ function processInput( char:string):void {
     if ( char === "ENTER") {
         // make a guess at the word
         guessWord();
+        incGuess();
     }
     else if ( (char.length === 1) && (regexp.test(char))) {
         const lcChar = char.toLowerCase();
-        // console.log("valid input " + char);
         // check to see whether letter has already been selected
-        if (_.indexOf(lettersChosen,lcChar) > 0) {
+        if (_.indexOf(lettersChosen,lcChar) > -1) {
             // don't process anything because letter has already been selected
         }
         else {
+            incGuess();
             theWord.checkChar(lcChar);
             lettersChosen.push(lcChar);
             // check to see if word is completed
@@ -156,7 +211,7 @@ function wordCompleted():void {
     term.moveTo(termXY.getWord.x, termXY.getWord.y);
     term("                                          ");
     term.moveTo(termXY.chooseAgain.x, termXY.chooseAgain.y);
-    term("completed word "+ theWord.word2FullString());
+    term("completed word \""+ theWord.word2FullString() + "\"");
     term(" Another game ? (Y/n)");
     readWord = true; // not really reading word but disables key event
     term.yesOrNo({ yes: ['y', 'Y','ENTER'], no: ['n', 'N'] }, function (error, result) {
@@ -174,21 +229,18 @@ function wordCompleted():void {
 function start():void {  
     chooseWord();
     lettersChosen = [];
+    guesses = -1; // referenced through incGuesses function which always increments so start at -1
     setupTerminal();
     showWord();
     showLettersChosen();
+    incGuess(); // increments to 0 and displays number of guesses
+
     // after setup, program is driven by key presses
 }
 
-
-
-// showWord();
-// showLettersChosen();
-// getInput();
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// main program
 start();
-
-// console.log(theWord);
 
 // set terminal up to read key presses
 term.grabInput(true);
