@@ -57,7 +57,9 @@ Other design notes
 
 * Gulp was reasonably easy to use. It reads gulpfile.js and creates a compile pipeline for typescript. It doesn't     understand dependencies so just compiles all the typescript files. Overkill for such a simple project. make would   understand the dependencies better but cannot be run as a background process that watches files for changes
 
-* Typescript. Adding type information to variables and functions was easy after a while. I started with javascript    constructor functions at first but the typing was very confusing so I converted to classes. The class syntax is     supported by javascript es6, and es6 is (mostly) supported by Node.js, so the typescript compiler doesn't change    much
+* Typescript. Adding type information to variables and functions was easy after a while. I started with javascript    constructor functions at first but the typing was very confusing so I converted to classes. The class syntax is     supported by javascript es6, and es6 is (mostly) supported by Node.js, so the typescript compiler doesn't change    much. I didn't explore replacing the VSCode typescript compiler with the node versions and using it's error
+  checking. The inline error detection and hints worked very well with the existing typescript setup. Inspect 
+  debugger didn't work in conjunction with terminal-kit, as could not provide inputs to program.
 
 * Lodash. I only used two methods from lodash, could possibly have used more to replace some of the for loops
 
