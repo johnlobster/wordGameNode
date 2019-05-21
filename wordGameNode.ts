@@ -140,6 +140,8 @@ function guessWord():void {
     term.moveTo(termXY.getWord.x, termXY.getWord.y);
     // erase what was there
     term("                                     ");
+    // BUG is here - cursor moves to the wrong place
+    debugger;
     term.moveTo(termXY.getWord.x, termXY.getWord.y);
     // term("Here " + termXY.getWord.x + "," + termXY.getWord.y);
     // term.moveTo(termXY.getWord.x, termXY.getWord.y + 5);
