@@ -17,13 +17,16 @@ const wordsArr = [
 
 // object to hold x,y locations of inputs and outputs for use by terminal-kit
 const termXY = {
-    chosenLetters: { x: 10, y: 10},
-    wordSoFar: { x:10, y:12},
-    getWord: { x:10, y:15},
-    input: { x:10, y:13}
+    chosenLetters: { x:25, y:10},
+    wordSoFar:     { x:25, y:12},
+    getWord:       { x:25, y:15},
+    input:         { x:25, y:13},
+    chooseAgain:   { x:25, y:18}
 };
 
-// can't seem to turn off the event listener so using a global variable to make it not reurn anything
+// offsets the instructions from left hand side
+const xOffset = 5;
+// can't seem to turn off the event listener so using a global variable to make it doesn't return anything
 var readWord = false;
 // holds the word selected by random from wordsArr
 var theWord:Word;
@@ -41,43 +44,72 @@ function chooseWord () {
 // clears the screen and then prints out all the information
 function setupTerminal():void {
     term.clear();
+    // write information to screen
+    term.moveTo(xOffset,termXY.input.y);
+    term("Type letters");
+    term.moveTo(xOffset, termXY.chosenLetters.y);
+    term("Letters chosen ");
+    term.moveTo(xOffset, termXY.wordSoFar.y);
+    term("Word so far ");
+    // move cursor to input position
+    term.moveTo(termXY.input.x, termXY.input.y);
+
 }
 
 
 function showWord():void {
     let word:string = theWord.word2string();
-    console.log("Word so far " + word);
+    term.moveTo(termXY.wordSoFar.x, termXY.wordSoFar.y);
+    term(word);
+    // want to know how many characters
+    term("  (" + theWord.letterArr.length + " characters)");
+    term.moveTo(termXY.input.x, termXY.input.y);
 }
 
 function showLettersChosen ():void {
-    console.log( "Letters chosen " +lettersChosen.join(","));
+    term.moveTo(termXY.chosenLetters.x, termXY.chosenLetters.y);
+    term( lettersChosen.join(","));
+    term.moveTo(termXY.input.x, termXY.input.y);
 }
 
-function exitGame(message?: string): void {
+function exitGame(message?: any): void {
+    // move down 10 lines
     term.nextLine(10);
     if (message !== undefined) {
-        
-        console.log(message);
+        console.log(String(message));
     }
+    // using this exit resets any strange stuff the terminal is doing
     term.processExit(0);
 }
 
 function guessWord():void {
-    console.log("Guess a word");
+    term.moveTo(xOffset, termXY.getWord.y);
+    term("Guess the word ");
+    term.moveTo(xOffset, termXY.getWord.y + 1);
+    term("(RETURN to finish)");
+    term.moveTo(termXY.getWord.x, termXY.getWord.y);
     // turn off the key event listener using global variable
     readWord = true;
     term.inputField(function (error: any, input: string) {
         if (error) {
             // term.red.bold("\nAn error occurred reading input field: " + error + "\n");
-            exitGame("\nAn error occurred reading input field: " + error + "\n");
+            exitGame(term.red.str("\nAn error occurred reading input field: " + error + "\n"));
         }
         else {
-            console.log("\nInput was " + input);
+            // console.log("\nInput was " + input);
             if( input === theWord.word2FullString()) {
+                readWord = false;
                 wordCompleted();
             }
             else {
-                console.log("Guess was wrong");
+                term.moveTo(xOffset, termXY.getWord.y);
+                term("                                   ");
+                term.moveTo(xOffset, termXY.getWord.y + 1);
+                term("                    ");
+                term.moveTo(termXY.getWord.x, termXY.getWord.y);
+                term("Guess " + input + " was wrong                                  ");
+                // move cursor back to input position
+                term.moveTo(termXY.input.x, termXY.input.y);
             }
         }
         // let the event listener work again
@@ -108,6 +140,8 @@ function processInput( char:string):void {
                 showLettersChosen();
             }
             else {
+                showWord();
+                showLettersChosen();
                 wordCompleted();
                 
             }
@@ -118,12 +152,14 @@ function processInput( char:string):void {
 }
 
 function wordCompleted():void {
-    console.log("completed word");
-    showWord();
-    showLettersChosen();
-    console.log(" Another game ? (Y/n)");
+    // erase guessed word
+    term.moveTo(termXY.getWord.x, termXY.getWord.y);
+    term("                                          ");
+    term.moveTo(termXY.chooseAgain.x, termXY.chooseAgain.y);
+    term("completed word "+ theWord.word2FullString());
+    term(" Another game ? (Y/n)");
     readWord = true; // not really reading word but disables key event
-    term.yesOrNo({ yes: ['y', 'ENTER'], no: ['n'] }, function (error, result) {
+    term.yesOrNo({ yes: ['y', 'Y','ENTER'], no: ['n', 'N'] }, function (error, result) {
         if (result) {
             readWord = false; // re-enabled key event
             start();
@@ -135,9 +171,12 @@ function wordCompleted():void {
     
 }
 
-function start():void {
-    setupTerminal();
+function start():void {  
     chooseWord();
+    lettersChosen = [];
+    setupTerminal();
+    showWord();
+    showLettersChosen();
     // after setup, program is driven by key presses
 }
 
@@ -149,7 +188,8 @@ function start():void {
 
 start();
 
-console.log(theWord);
+// console.log(theWord);
+
 // set terminal up to read key presses
 term.grabInput(true);
 
