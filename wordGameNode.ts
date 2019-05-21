@@ -52,13 +52,13 @@ function chooseWord () {
     
 }
 
-// clears the screen and then prints out all the information
+// clears the screen and then prints out instructions and information
 function setupTerminal():void {
     term.clear();
     // write information to screen
     // title
     term.moveTo(termXY.title.x, termXY.title.y);
-    term.bold("Word game");
+    term.bold("Word Game");
     // instructions
     term.moveTo(termXY.instructions.x, termXY.instructions.y);
     term("Instructions:\n");
@@ -129,6 +129,8 @@ function incGuess():void {
     }
 }
 
+// function to allow user to make a guess at the whole word
+// this still has a BUG
 function guessWord():void {
     term.moveTo(xOffset, termXY.getWord.y);
     term("Guess the word ");
@@ -139,8 +141,8 @@ function guessWord():void {
     // erase what was there
     term("                                     ");
     term.moveTo(termXY.getWord.x, termXY.getWord.y);
-    term("Here " + termXY.getWord.x + "," + termXY.getWord.y);
-    term.moveTo(termXY.getWord.x, termXY.getWord.y + 5);
+    // term("Here " + termXY.getWord.x + "," + termXY.getWord.y);
+    // term.moveTo(termXY.getWord.x, termXY.getWord.y + 5);
     // turn off the key event listener using global variable
     readWord = true;
     term.inputField({},function (error: any, input: string) {
@@ -159,15 +161,18 @@ function guessWord():void {
                 term("                                   ");
                 term.moveTo(xOffset, termXY.getWord.y + 1);
                 term("                    ");
+                // BUG fix, erase the typing at the key input locations
+                term.moveTo(termXY.input.x, termXY.input.y);
+                term("                                ");
                 // let user know what happened
                 term.moveTo(termXY.getWord.x, termXY.getWord.y);
                 term("Guess \"" + input + "\" was wrong                                  ");
                 // move cursor back to input position
                 term.moveTo(termXY.input.x, termXY.input.y);
+                // let the event listener work again
+                readWord = false;
             }
-        }
-        // let the event listener work again
-        readWord = false;
+        }      
     });
 }
 // function called when a key is pressed in raw mode
