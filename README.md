@@ -35,6 +35,9 @@ Results can be found in the results sub-directory.
 
 #### Design notes
 
+I used `terminal-kit` to move the cursor around and have an output that stayed in the same place. The problem is that 
+you can't then use `console.log()` to debug. So I got all the logic working without `terminal-kit` and then added the `terminal-kit` functions. 
+
 I had some difficulties getting some simple things working
 
 1. Using typescript I ended up using the javascript es6 syntax for importing and exporting modules. Unfortunately,     Node.js does not support this. Using the `esm` module, I was able to overcome this using file `run.js`
