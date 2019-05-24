@@ -29,6 +29,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^5.0.1",
     "inspect-process": "^0.5.0",
+    "node-inspect": "^1.11.5",
     "typescript": "^3.4.5"
   }
 }
