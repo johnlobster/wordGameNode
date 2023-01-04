@@ -18,7 +18,7 @@
   "homepage": "https://github.com/johnlobster/wordGameNode#readme",
   "dependencies": {
     "lodash": "^4.17.19",
-    "terminal-kit": "^1.28.0"
+    "terminal-kit": "^3.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.129",
